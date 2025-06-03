@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BD NETWORK SOLUTIONS - Data Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Paystack Checkout SDK -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        /* Import Inter font from Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        /* Base body styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #1f2937; /* Dark gray text */
+        }
+
+        /* Main navigation bar styling */
+        .main-navbar {
+            background-color: #FFD700; /* MTN Yellow */
+            color: #1f2937; /* Dark text for contrast */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            position: relative; /* Needed for absolute positioning of mobile menu */
+            z-index: 40; /* Ensure navbar is above other content */
+        }
+
+        /* Logo text styling - Reduced size */
+        .main-navbar .logo-text {
+            color: #1f2937; /* Dark text for brand name on yellow background */
+            font-size: 1.3rem; /* Slightly reduced again for more compactness */
+            font-weight: 800; /* Extra bold */
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        /* Slogan text styling - Adjusted margin */
+        .main-navbar .slogan-text {
+            color: #374151; /* A slightly darker gray for subtlety */
+            font-size: 0.6rem; /* Slightly smaller for better fit */
+            font-weight: 500; /* Medium weight */
+            margin-top: -0.1rem; /* Pull it slightly closer to the main text */
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        /* Hero section styling */
+        .hero-section {
+            background-image: url('https://i.imgur.com/7bSulGO.jpeg'); /* Background image */
+            background-size: cover; /* Cover the entire area */
+            background-position: center; /* Center the background image */
+            min-height: 100vh; /* Adjusted to 100vh for better mobile adaptability */
+            display: flex;
+            align-items: center; /* Center content vertically */
+            position: relative; /* Needed for overlay */
+            padding: 2rem 0; /* Vertical padding */
+        }
+
+        /* Hero overlay for text readability */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+            z-index: 1;
+        }
+
+        /* Wrapper for hero content */
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 2;
+            color: #ffffff; /* White text for hero content */
+            display: flex;
+            flex-direction: column; /* Stack vertically on small screens */
+            align-items: center; /* Center items on small screens */
+            justify-content: center; /* Distribute space */
+            width: 100%;
+        }
+
+        /* Media query for medium screens and up to arrange hero content side-by-side */
+        @media (min-width: 768px) {
+            .hero-content-wrapper {
+                flex-direction: row;
+                align-items: flex-start; /* Align to the top of the flex container */
+                justify-content: space-around; /* Adjust spacing */
+                padding: 0 2rem; /* Horizontal padding */
+            }
+        }
+
+        /* Hero text content styling */
+        .hero-text-content {
+            text-align: center; /* Center text on small screens */
+            margin-bottom: 2rem; /* Space between text and card on small screens */
+            width: 100%; /* Full width on small screens */
+        }
+
+        /* Media query for medium screens and up for hero text alignment */
+        @media (min-width: 768px) {
+            .hero-text-content {
+                text-align: left; /* Align text to left on larger screens */
+                width: 45%; /* Take up roughly half the width */
+                margin-bottom: 0;
+            }
+        }
+
+        /* Adjusted H1 font size for hero section */
+        .hero-text-content h1 {
+            font-size: 2rem; /* Reduced from 2.25rem for better mobile fit */
+            font-weight: 800; /* Extra bold */
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            max-width: 500px; /* Constrain width for readability */
+            margin-left: auto; /* Center on small screens */
+            margin-right: auto; /* Center on small screens */
+        }
+
+        /* Media query for larger screens for H1 font size */
+        @media (min-width: 768px) {
+            .hero-text-content h1 {
+                font-size: 3.25rem; /* Slightly reduced from 3.5rem for desktop */
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+
+        /* Blended Card Styling - Adjusted for better visibility (for auth section) */
+        .card {
+            background-color: rgba(255, 255, 255, 0.85); /* 85% transparent white */
+            backdrop-filter: blur(6px); /* Blur effect */
+            -webkit-backdrop-filter: blur(6px); /* Safari support */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            border-radius: 12px;
+            padding: 2.5rem;
+            color: #1f2937; /* Dark text for better contrast */
+            border: 1px solid rgba(255, 255, 255, 0.7); /* More visible white border */
+            width: 100%;
+            max-width: 448px; /* Max width for the card */
+        }
+
+        /* Media query for medium screens and up for card width */
+        @media (min-width: 768px) {
+            .card {
+                width: 45%;
+            }
+        }
+
+        /* Input field styling for better visibility and spacing */
+        .input-field {
+            background-color: #ffffff; /* Solid white background */
+            border: 1px solid #cbd5e1; /* Light gray border */
+            color: #1f2937; /* Dark text */
+            padding: 0.75rem 1rem; /* Added more padding */
+            border-radius: 0.5rem; /* Increased border-radius to 0.5rem */
+            /* Removed margin-bottom here to use space-y on parent for better control */
+        }
+        .input-field:focus {
+            border-color: #FFD700; /* Yellow border on focus */
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.4); /* Yellow glow on focus */
+        }
+        /* Message box styling */
+        .message-box {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        .message-box.info {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            border: 1px solid #90cdf4;
+        }
+        .message-box.success {
+            background-color: #fffbeb;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+        .message-box.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-color: #fca5a5;
+        }
+
+        /* User info bar styling */
+        .user-info-bar {
+            background-color: #2d3748; /* Dark background as seen in the image */
+            color: #FFD700; /* MTN Yellow for text */
+            padding: 0.8rem 1.5rem; /* Adjusted padding for a fuller bar */
+            border-radius: 8px; /* Rounded corners */
+            display: flex; /* Use flexbox for alignment */
+            flex-direction: row; /* Arrange items horizontally */
+            align-items: center; /* Vertically center items */
+            justify-content: space-between; /* Space between user display and button */
+            font-weight: 600;
+            margin-bottom: 2rem; /* Space below the user info bar */
+            width: 100%; /* Ensure it spans the full width of its parent */
+        }
+
+        #user-display {
+            font-size: 1.1rem; /* Slightly larger font for welcome message */
+            font-weight: 700; /* Bold */
+            color: #FFD700; /* Yellow text for welcome message */
+            white-space: nowrap; /* Prevent wrapping for the name */
+            overflow: hidden; /* Hide overflow if name is too long */
+            text-overflow: ellipsis; /* Add ellipsis for long names */
+            margin-right: 1rem; /* Space between text and button */
+        }
+
+        .user-info-bar button {
+            background-color: #FFD700; /* MTN Yellow for sign out button */
+            color: #1f2937; /* Dark text for contrast on yellow */
+            padding: 0.6rem 1.2rem; /* Padding for the button */
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.2s, color 0.2s;
+            border: none; /* Remove default button border */
+            cursor: pointer;
+        }
+        .user-info-bar button:hover {
+            background-color: #FFC000; /* Slightly darker yellow on hover */
+            color: #000000; /* Black text on hover for more contrast */
+        }
+
+        /* Adjust for small screens if needed */
+        @media (max-width: 640px) {
+            .user-info-bar {
+                flex-direction: column; /* Stack items vertically on small screens */
+                align-items: flex-start; /* Align text to the left */
+                padding: 1rem;
+            }
+            #user-display {
+                margin-right: 0;
+                margin-bottom: 0.5rem; /* Space between name and button */
+                text-align: left;
+                width: 100%;
+            }
+            .user-info-bar button {
+                width: auto; /* Allow button to size naturally */
+                align-self: flex-end; /* Align button to the right */
+            }
+        }
+
+        /* Adjust specific text/elements inside the card */
+        #auth-title, #main-app-section h2, #order-details-step h3 {
+            color: #1f2937; /* Headings to dark */
+            text-shadow: none;
+        }
+        #auth-subtitle, .text-gray-600 {
+            color: #4a5568; /* Standard gray for readability */
+        }
+
+        /* Payment account details styling */
+        .payment-account {
+            background-color: #f9fafb; /* Light background */
+            border: 1px solid #e5e7eb;
+            color: #1f2937; /* Dark text */
+            padding: 1rem; /* Added padding */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+        .payment-account strong, .payment-account p {
+            color: #1f2937; /* Dark text */
+        }
+        .payment-account img {
+            height: auto;
+            max-width: 60px; /* Reduced logo size in payment accounts */
+            margin-right: 0.75rem;
+            vertical-align: middle;
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        /* Contact name display styling */
+        #contact-name-container {
+            background-color: #1a202c; /* Dark background */
+            color: #FFD700; /* MTN Yellow text */
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Prevents interaction when hidden */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            cursor: pointer;
+            position: absolute; /* Position absolutely */
+            top: 5rem; /* Below the nav bar */
+            right: 1.5rem; /* Align with right edge */
+            z-index: 30; /* Ensure it's above other content */
+        }
+        #contact-name-container.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto; /* Enables interaction when shown */
+        }
+        #contact-name-container:hover {
+            background-color: #2d3748;
+            color: #FFC000;
+        }
+
+        /* Agent Message Display styling */
+        #agent-message-container {
+            background-color: #fffbeb; /* Light yellow background */
+            color: #92400e; /* Dark brown text */
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Prevents interaction when hidden */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            max-width: 350px;
+            text-align: center;
+            border: 1px solid #fcd34d;
+            position: absolute; /* Position absolutely */
+            top: 5rem; /* Below the nav bar */
+            right: 1.5rem; /* Align with right edge */
+            z-index: 30; /* Ensure it's above other content */
+        }
+        #agent-message-container.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto; /* Enables interaction when shown */
+        }
+
+        /* Styles for the new dashboard navigation buttons */
+        .dashboard-nav-buttons button {
+            background-color: #FFD700;
+            color: #1f2937;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex; /* Make buttons flexible for icons */
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .dashboard-nav-buttons button:hover {
+            background-color: #FFC000;
+            transform: translateY(-2px);
+        }
+        .dashboard-nav-buttons button.active {
+            background-color: #1f2937; /* Dark background for active button */
+            color: #FFD700; /* Yellow text for active button */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Inset shadow for pressed look */
+        }
+
+        /* Styling for individual order items */
+        #orders-list > div {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        #orders-list > div p {
+            color: #1f2937;
+        }
+        #orders-list > div strong {
+            color: #1f2937;
+        }
+        .mark-delivered-btn {
+            background-color: #10b981; /* Green */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem; /* Space from other text */
+        }
+        .mark-delivered-btn:hover {
+            background-color: #059669; /* Darker green */
+        }
+
+
+        /* Hamburger menu button styling - Always visible */
+        #mobile-menu-button {
+            display: block; /* Always show hamburger button */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 60; /* Ensure it's above the mobile menu */
+        }
+        #mobile-menu-button svg {
+            width: 28px;
+            height: 28px;
+            fill: #1f2937; /* Dark color for icon */
+            stroke: #1f2937; /* Ensure stroke is also dark for visibility */
+        }
+
+        /* Mobile menu styling (hidden by default, slides in) */
+        #mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 80%; /* Adjusted to 80% width for better responsiveness */
+            max-width: 250px; /* Max width to prevent it from being too large on tablets */
+            height: 100%;
+            background-color: #000000; /* Pure black background for the menu */
+            color: #FFD700; /* Yellow text */
+            transform: translateX(100%); /* Start off-screen to the right */
+            transition: transform 0.3s ease-in-out; /* Smooth slide transition */
+            z-index: 50; /* Ensure it's above other content but below button */
+            padding-top: 5rem; /* Space for content below navbar */
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
+            display: none; /* Hidden by default, will be set to flex when 'open' */
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        #mobile-menu.open {
+            transform: translateX(0); /* Slide into view */
+            display: flex; /* Show as flex container */
+        }
+        #mobile-menu a {
+            color: #FFD700;
+            padding: 1rem;
+            width: 100%;
+            text-align: center;
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        #mobile-menu a:hover {
+            background-color: #374151; /* Darker gray on hover */
+        }
+
+        /* Hide desktop nav links on all screens */
+        .main-navbar .desktop-nav-links {
+            display: none;
+        }
+
+        /* New styles for full-screen dashboard */
+        #main-app-section {
+            min-height: calc(100vh - 4rem); /* Adjust based on navbar height */
+            width: 100%;
+            padding-top: 1rem;
+            padding-bottom: 2rem;
+            background-color: #f0f2f5; /* Match body background */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+        }
+        #main-app-section > .container {
+            width: 100%;
+            max-width: 1200px; /* Max width for overall dashboard content */
+        }
+        .dashboard-content-wrapper {
+            width: 100%;
+            /* Removed max-width here, handled by #dashboard-content-area */
+            /* Removed margin-left/right here, handled by #dashboard-content-area */
+        }
+
+        /* Dashboard Content Area (the white card that contains the order page) */
+        #dashboard-content-area {
+            background-color: #ffffff; /* White background for the main dashboard area */
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem; /* Padding inside this container */
+            width: 100%; /* Takes full width of its parent container */
+            max-width: 900px; /* Maximum width for the dashboard content */
+            color: #1f2937; /* Dark text for content inside the white card */
+            margin-left: auto; /* Center the dashboard content area */
+            margin-right: auto; /* Center the dashboard content area */
+            margin-top: 1rem; /* Space below the user info bar */
+        }
+
+        /* Order sections within dashboard (this is the order page itself) */
+        #order-placement-section,
+        #my-orders-section,
+        #account-settings-section { /* Applied to account settings too for consistency */
+            background-color: #f9fafb; /* Light background for content sections */
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem; /* Padding inside the order section */
+            margin-top: 1.5rem; /* Space between the tab buttons and the order section / previous section */
+        }
+
+
+        /* Adjust card within dashboard to be centered and have a max-width */
+        /* These styles are now largely handled by #dashboard-content-area and the individual sections */
+        #order-placement-section, #account-settings-section {
+             /* max-width and margin-left/right removed as they are now full width of #dashboard-content-area */
+        }
+        /* Styling for the individual stat cards in My Orders section */
+        .stat-card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .stat-card p {
+            margin: 0;
+        }
+        .stat-card .stat-value {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+        }
+        .stat-card .stat-label {
+            font-size: 0.875rem; /* text-sm */
+            color: #6b7280; /* gray-500 */
+        }
+        /* Updated submit button for login page to match image */
+        .submit-button {
+            background-color: #000000; /* Black */
+            color: #ffffff; /* White */
+            padding: 0.75rem 1.5rem; /* Adjusted padding */
+            border-radius: 0.5rem; /* Slightly more rounded */
+            font-weight: 700; /* Bold */
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: none; /* Ensure no border */
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #1a1a1a; /* Slightly lighter black on hover */
+            transform: translateY(-1px);
+        }
+        /* Status colors for customer dashboard */
+        .status-submitted { color: #f59e0b; } /* Amber, previously for pending, now for submitted */
+        .status-processing { color: #3b82f6; } /* Blue */
+        .status-delivered { color: #10b981; } /* Green */
+        .status-cancelled { color: #ef4444; } /* Red */
+        .status-unknown { color: #6b7280; } /* Gray */
+
+        /* Mobile-specific font size adjustments for auth-title */
+        #auth-title {
+            font-size: 2rem; /* text-2xl for mobile */
+        }
+        @media (min-width: 768px) {
+            #auth-title {
+                font-size: 3rem; /* text-3xl for desktop */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-navbar py-4 px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="https://i.imgur.com/Sede46z.jpeg" target="_blank" class="flex items-center">
+                    <img src="https://i.imgur.com/Sede46z.jpeg" alt="BD NETWORK SOLUTIONS Logo" class="h-12 w-auto mr-3 rounded-full">
+                </a>
+                <div class="flex flex-col items-start ml-3">
+                    <span class="logo-text">BD NETWORK SOLUTIONS</span>
+                    <span class="slogan-text">YOUR LINK TO THE DIGITAL WORLD</span>
+                </div>
+            </div>
+            <button id="mobile-menu-button" aria-label="Open menu">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+                    <path fill-rule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="hidden">
+        <a href="#" id="mobile-agent-link">Become an Agent</a>
+        <a href="#" id="mobile-contact-link">Contact Support</a>
+    </div>
+
+    <div id="contact-name-container">
+        <a href="https://wa.me/233531323296" target="_blank" class="no-underline">
+            <span id="contact-name-display">Admin</span>
+        </a>
+    </div>
+    <div id="agent-message-container">
+        <span>Please reach out to <a href="mailto:bdnetworksolutions01@gmail.com" class="font-bold underline text-blue-800 hover:text-blue-600">bdnetworksolutions01@gmail.com</a> via Gmail.</span>
+    </div>
+
+    <div id="pre-login-section">
+        <div class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content-wrapper container mx-auto flex flex-col md:flex-row items-center md:items-start justify-center gap-8 px-4 sm:px-6 lg:px-8">
+                <div class="hero-text-content md:w-1/2 lg:w-2/5 text-center md:text-left mb-8 md:mb-0">
+                    <h1 class="text-white">Enjoy Affordable and Non-Expiry Data Bundle Offers</h1>
+                    <p class="text-white">Experience seamless connectivity with our flexible data plans.</p>
+                </div>
+                <div class="max-w-md w-full md:w-1/2 lg:w-2/5 card" id="auth-section">
+                    <div>
+                        <h2 class="mt-6 text-center text-3xl font-extrabold" id="auth-title">
+                            Sign In
+                        </h2>
+                    </div>
+
+                    <div class="mt-6">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <button type="button" id="google-signin-button"
+                                        class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <i class="fab fa-google mr-2"></i>
+                                    Google
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" id="apple-signin-button"
+                                        class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <i class="fab fa-apple mr-2"></i>
+                                    Apple
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">Or with Email</span>
+                        </div>
+                    </div>
+
+                    <form class="space-y-4 md:space-y-6" id="signInForm"> <div>
+                            <label for="signin-email" class="sr-only">Email Address</label>
+                            <input id="signin-email" name="email" type="email" autocomplete="email" required
+                                   class="appearance-none relative block w-full input-field"
+                                   placeholder="Email">
+                        </div>
+                        <div>
+                            <label for="signin-password" class="sr-only">Password</label>
+                            <input id="signin-password" name="password" type="password" autocomplete="current-password" required
+                                   class="appearance-none relative block w-full input-field"
+                                   placeholder="Password">
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input id="remember-me" name="remember-me" type="checkbox"
+                                       class="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded">
+                                <label for="remember-me" class="ml-2 block text-sm">
+                                    Remember me
+                                </label>
+                            </div>
+                            <div class="text-sm">
+                                <a href="#" id="forgot-password-link" class="font-medium text-yellow-600 hover:text-yellow-500">
+                                    Forgot Password?
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button type="submit"
+                                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md submit-button">
+                                LOGIN
+                            </button>
+                        </div>
+                    </form>
+
+                    <p class="mt-4 text-center text-sm" id="auth-subtitle">
+                        Not a Member yet? <span class="auth-toggle-link text-blue-600 hover:text-blue-800 cursor-pointer" data-target="signup">Sign Up</span>
+                    </p>
+
+                    <form class="space-y-4 md:space-y-6 hidden" id="signUpForm"> <div>
+                            <label for="signup-name" class="sr-only">Your Name</label>
+                            <input id="signup-name" name="name" type="text" required
+                                   class="appearance-none relative block w-full input-field"
+                                   placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label for="signup-email" class="sr-only">Email Address</label>
+                            <input id="signup-email" name="email" type="email" autocomplete="email" required
+                                   class="appearance-none relative block w-full input-field"
+                                   placeholder="Email Address">
+                        </div>
+                        <div>
+                            <label for="signup-password" class="sr-only">Password</label>
+                            <input id="signup-password" name="password" type="password" autocomplete="new-password" required
+                                   class="appearance-none relative block w-full input-field"
+                                   placeholder="Password">
+                        </div>
+                        <div>
+                            <label for="signup-confirm-password" class="sr-only">Confirm Password</label>
+                            <input id="signup-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required
+                                   class="appearance-none relative block w-full input-field"
+                                   placeholder="Confirm Password">
+                        </div>
+                        <div class="mt-6">
+                            <button type="submit"
+                                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md submit-button">
+                                Sign Up
+                            </button>
+                        </div>
+                    </form>
+
+                    <form class="space-y-4 md:space-y-6 hidden" id="forgotPasswordForm"> <div>
+                            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                                Reset Password
+                            </h2>
+                            <p class="mt-2 text-center text-sm text-gray-600">
+                                Enter your email address to receive a password reset link.
+                            </p>
+                        </div>
+                        <div>
+                            <label for="reset-email" class="sr-only">Email Address</label>
+                            <input id="reset-email" name="email" type="email" autocomplete="email" required
+                                   class="appearance-none relative block w-full input-field"
+                                   placeholder="Email Address">
+                        </div>
+                        <div class="mt-6">
+                            <button type="submit"
+                                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md submit-button">
+                                Send Reset Link
+                            </button>
+                        </div>
+                        <div class="text-center text-sm mt-4">
+                            <a href="#" id="back-to-signin-link" class="font-medium text-yellow-600 hover:text-yellow-500">
+                                Back to Sign In
+                            </a>
+                        </div>
+                    </form>
+
+                    <div id="message-box" class="hidden message-box info"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-app-section" class="flex flex-col flex-grow items-center w-full px-4 sm:px-6 lg:px-8 py-8" style="display: none;">
+        <div class="container mx-auto dashboard-content-wrapper">
+            <div class="user-info-bar mb-8">
+                <span id="user-display"></span>
+                <button id="signOutButton">Sign Out</button>
+            </div>
+
+            <div id="dashboard-content-area"> <div class="dashboard-nav-buttons flex flex-wrap justify-center gap-4 mb-8">
+                    <button id="order-placement-btn" class="active">
+                        <i class="fas fa-shopping-cart"></i> Order Data
+                    </button>
+                    <button id="my-orders-btn">
+                        <i class="fas fa-history"></i> My Orders
+                    </button>
+                    <button id="account-settings-btn">
+                        <i class="fas fa-user-cog"></i> Account
+                    </button>
+                </div>
+
+                <section id="order-placement-section">
+                    <div id="order-details-step" class="p-6 md:p-8"> <h3 class="mt-6 text-center text-3xl font-extrabold text-yellow-400 mb-6 flex items-center justify-center">
+                            <img src="https://placehold.co/40x40/FFD700/000000?text=MTN" alt="MTN Logo" class="h-10 w-auto mr-3 rounded-full">
+                            MTNUP2U DATA BUNDLE
+                        </h3>
+                        <p class="mt-2 text-center text-sm text-gray-600">
+                            Fill in your details to place your order.
+                        </p>
+                        <form class="mt-8 space-y-6" id="orderForm">
+                            <div class="rounded-md shadow-sm">
+                                <div>
+                                    <label for="contact-number" class="sr-only">Contact Number</label>
+                                    <input id="contact-number" name="contactNumber" type="text" required
+                                           class="appearance-none relative block w-full input-field"
+                                           placeholder="Contact Number (e.g., 0531323296)">
+                                </div>
+                                <div>
+                                    <label for="data-size" class="sr-only">Data Size</label>
+                                    <select id="data-size" name="dataSize" required
+                                            class="appearance-none relative block w-full input-field">
+                                        <option value="" disabled selected>Select Data Size</option>
+                                        <option value="1GB">1GB</option>
+                                        <option value="2GB">2GB</option>
+                                        <option value="3GB">3GB</option>
+                                        <option value="4GB">4GB</option>
+                                        <option value="5GB">5GB</option>
+                                        <option value="6GB">6GB</option>
+                                        <option value="8GB">8GB</option>
+                                        <option value="10GB">10GB</option>
+                                        <option value="15GB">15GB</option>
+                                        <option value="20GB">20GB</option>
+                                        <option value="30GB">30GB</option>
+                                        <option value="50GB">50GB</option>
+                                        <option value="100GB">100GB</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="amount" class="sr-only">Amount</label>
+                                    <input id="amount" name="amount" type="text" readonly
+                                           class="appearance-none relative block w-full input-field"
+                                           placeholder="Amount (Ghc)" value="">
+                                </div>
+                            </div>
+
+                            <div>
+                                <button type="submit"
+                                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md submit-button">
+                                    Proceed to Payment
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    </section>
+
+                <section id="my-orders-section" class="hidden">
+                    <div class="p-6 md:p-8">
+                        <h2 class="text-2xl font-bold mb-6 text-center">My Data Orders</h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="stat-card">
+                                <div>
+                                    <p class="stat-label">Total Orders</p>
+                                    <p class="stat-value" id="total-orders">0</p>
+                                </div>
+                                <i class="fas fa-list-alt text-4xl text-blue-500"></i>
+                            </div>
+                            <div class="stat-card">
+                                <div>
+                                    <p class="stat-label">Submitted</p>
+                                    <p class="stat-value text-orange-500" id="pending-orders">0</p>
+                                </div>
+                                <i class="fas fa-hourglass-half text-4xl text-orange-500"></i>
+                            </div>
+                        </div>
+
+                        <button id="toggle-orders-display" class="submit-button mt-4 w-full py-2 px-4 rounded-md text-sm font-medium shadow-md transition-all duration-200 ease-in-out hover:shadow-lg">
+                            Show My Orders
+                        </button>
+
+                        <div id="orders-list" class="space-y-4 mt-6 hidden"> <p class="text-gray-600 text-center" id="no-orders-message">No orders placed yet.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="account-settings-section" class="hidden">
+                    <div class="p-6 md:p-8">
+                        <h2 class="text-2xl font-bold mb-6 text-center">Account Settings</h2>
+
+                        <form id="profile-edit-form" class="space-y-6 mb-8">
+                            <h3 class="text-xl font-semibold mb-4">Edit Profile Information</h3>
+                            <div>
+                                <label for="profile-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name:</label>
+                                <input type="text" id="profile-name" name="name" class="input-field block w-full">
+                            </div>
+                            <div>
+                                <label for="profile-email" class="block text-sm font-medium text-gray-700 mb-1">Email Address:</label>
+                                <input type="email" id="profile-email" name="email" class="input-field block w-full">
+                            </div>
+                            <div>
+                                <label for="profile-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number:</label>
+                                <input type="tel" id="profile-phone" name="phone" class="input-field block w-full">
+                            </div>
+                            <button type="submit" class="submit-button w-full py-2 px-4 rounded-md text-sm font-medium shadow-md transition-all duration-200 ease-in-out hover:shadow-lg">
+                                Update Profile
+                            </button>
+                        </form>
+
+                        <form id="password-change-form" class="space-y-6">
+                            <h3 class="text-xl font-semibold mb-4">Change Password</h3>
+                            <div>
+                                <label for="current-password" class="block text-sm font-medium text-gray-700 mb-1">Current Password:</label>
+                                <input type="password" id="current-password" name="currentPassword" class="input-field block w-full" required>
+                            </div>
+                            <div>
+                                <label for="new-password" class="block text-sm font-medium text-gray-700 mb-1">New Password:</label>
+                                <input type="password" id="new-password" name="newPassword" class="input-field block w-full" required>
+                            </div>
+                            <div>
+                                <label for="confirm-new-password" class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password:</label>
+                                <input type="password" id="confirm-new-password" name="confirmNewPassword" class="input-field block w-full" required>
+                            </div>
+                            <button type="submit" class="submit-button w-full py-2 px-4 rounded-md text-sm font-medium shadow-md transition-all duration-200 ease-in-out hover:shadow-lg">
+                                Change Password
+                            </button>
+                        </form>
+                        <div id="account-message-box" class="message-box info hidden mt-4"></div>
+                    </div>
+                </section>
+            </div> </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+
+    <script>
+        // Your Firebase project configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyByXcxgxh86rOXuX-j1xmeAl9NVyPa85NA",
+            authDomain: "bd-network-5b70e.firebaseapp.com",
+            projectId: "bd-network-5b70e",
+            storageBucket: "bd-network-5b70e.firebasestorage.app",
+            messagingSenderId: "284926879983",
+            appId: "1:284926879983:web:9aa2555471d123d0cc931a"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        // const db = firebase.firestore(); // Uncomment if using Firestore
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // New prices provided by the user
+            const rawPrices = {
+                "1GB": "5.5Ghc", "2GB": "11Ghc", "3GB": "16Ghc", "4GB": "22Ghc",
+                "5GB": "26Ghc", "6GB": "31Ghc", "8GB": "40Ghc", "10GB": "49Ghc",
+                "15GB": "72Ghc", "20GB": "95Ghc", "30GB": "143Ghc", "50GB": "220Ghc",
+                "100GB": "425Ghc"
+            };
+
+            // Convert rawPrices to the existing dataBundles format for all networks
+            const newBundles = Object.keys(rawPrices).map(size => {
+                const priceString = rawPrices[size];
+                const price = parseFloat(priceString.replace('Ghc', ''));
+                return { "size": size, "price": price, "validity": "30 days" };
+            });
+
+            var dataBundles = {
+                "MTN": newBundles,
+                "Vodafone": newBundles,
+                "AirtelTigo": newBundles
+            };
+            const bundlePricesLookup = {};
+            newBundles.forEach(bundle => {
+                bundlePricesLookup[bundle.size] = bundle.price;
+            });
+
+
+            // Data storage for order and user
+            let collectedOrderData = {};
+            let currentUserUid = null;
+            let registeredUserName = '';
+            let registeredUserEmail = '';
+            let registeredUserPhone = '';
+            // simulatedUserPassword is no longer needed with real Firebase Auth
+            let currentOrders = [];
+
+
+            // DOM Elements
+            const preLoginSection = document.getElementById('pre-login-section');
+            const mainAppSection = document.getElementById('main-app-section');
+            const signOutButton = document.getElementById('signOutButton');
+            const authSection = document.getElementById('auth-section');
+            const signInForm = document.getElementById('signInForm');
+            const signUpForm = document.getElementById('signUpForm');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+            const authTitle = document.getElementById('auth-title');
+            const authSubtitle = document.getElementById('auth-subtitle');
+            const messageBox = document.getElementById('message-box');
+            
+            const orderDetailsStep = document.getElementById('order-details-step');
+            const orderForm = document.getElementById('orderForm');
+            const contactNumberInput = document.getElementById('contact-number');
+            const dataSizeSelect = document.getElementById('data-size');
+            const amountInput = document.getElementById('amount');
+
+            const orderPlacementBtn = document.getElementById('order-placement-btn');
+            const myOrdersBtn = document.getElementById('my-orders-btn');
+            const accountSettingsBtn = document.getElementById('account-settings-btn');
+            const orderPlacementSection = document.getElementById('order-placement-section');
+            const myOrdersSection = document.getElementById('my-orders-section');
+            const accountSettingsSection = document.getElementById('account-settings-section');
+
+            const userDisplay = document.getElementById('user-display');
+            const totalOrdersSpan = document.getElementById('total-orders');
+            const submittedOrdersSpan = document.getElementById('pending-orders');
+            const ordersList = document.getElementById('orders-list');
+            const noOrdersMessage = document.getElementById('no-orders-message');
+            const toggleOrdersDisplayButton = document.getElementById('toggle-orders-display');
+
+            const profileEditForm = document.getElementById('profile-edit-form');
+            const profileNameInput = document.getElementById('profile-name');
+            const profileEmailInput = document.getElementById('profile-email');
+            const profilePhoneInput = document.getElementById('profile-phone');
+            const passwordChangeForm = document.getElementById('password-change-form');
+            const currentPasswordInput = document.getElementById('current-password');
+            const newPasswordInput = document.getElementById('new-password');
+            const confirmNewPasswordInput = document.getElementById('confirm-new-password');
+            const accountMessageBox = document.getElementById('account-message-box');
+
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileAgentLink = document.getElementById('mobile-agent-link');
+            const mobileContactLink = document.getElementById('mobile-contact-link');
+            const contactNameContainer = document.getElementById('contact-name-container');
+            const agentMessageContainer = document.getElementById('agent-message-container');
+
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const resetEmailInput = document.getElementById('reset-email');
+            const backToSignInLink = document.getElementById('back-to-signin-link');
+
+            // New social sign-in buttons
+            const googleSignInButton = document.getElementById('google-signin-button');
+            const appleSignInButton = document.getElementById('apple-signin-button');
+
+
+            let currentView = 'order-placement';
+
+            // Helper functions for showing/hiding sections
+            function showMainApp() {
+                preLoginSection.style.display = 'none';
+                mainAppSection.style.display = 'flex';
+                switchDashboardView('order-placement');
+                updateOrderStats();
+                messageBox.classList.add('hidden');
+            }
+
+            function showAuthForms() {
+                mainAppSection.style.display = 'none';
+                preLoginSection.style.display = 'block';
+                userDisplay.textContent = '';
+                
+                currentUserUid = null;
+                currentOrders = [];
+                registeredUserName = '';
+                registeredUserEmail = '';
+                registeredUserPhone = '';
+                // simulatedUserPassword is not used for real auth
+                signInForm.classList.remove('hidden');
+                signUpForm.classList.add('hidden');
+                forgotPasswordForm.classList.add('hidden');
+                authTitle.textContent = 'Sign In'; // Updated title
+                authSubtitle.innerHTML = 'Not a Member yet? <span class="auth-toggle-link text-blue-600 hover:text-blue-800 cursor-pointer" data-target="signup">Sign Up</span>'; // Updated subtitle
+            }
+
+
+            // --- Firebase Auth State Change Listener ---
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    console.log('User state changed: Signed IN.', user.uid, user.email, user.displayName);
+                    currentUserUid = user.uid;
+                    registeredUserName = user.displayName || '';
+                    registeredUserEmail = user.email || '';
+                    // If you store phone number in Firebase, retrieve it here
+                    // registeredUserPhone = user.phoneNumber || '';
+
+                    // Load orders for the authenticated user
+                    currentOrders = JSON.parse(localStorage.getItem(`userOrders_${currentUserUid}`)) || [];
+
+                    userDisplay.textContent = `Welcome, ${user.displayName || user.email}`;
+                    showMainApp();
+                    displayMessage('You are signed in!', 'success');
+                } else {
+                    console.log('User state changed: Signed OUT.');
+                    showAuthForms();
+                    displayMessage('Please sign in or sign up to place an order.', 'info');
+                }
+            });
+
+
+            // --- Sign-in Form Submission ---
+            signInForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                console.log('Sign In form submitted.');
+                const email = document.getElementById('signin-email').value;
+                const password = document.getElementById('signin-password').value;
+                
+                const rememberMe = document.getElementById('remember-me').checked;
+                const persistence = rememberMe ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
+
+                displayMessage('Signing in...', 'info');
+                
+                try {
+                    await auth.setPersistence(persistence);
+                    await auth.signInWithEmailAndPassword(email, password);
+                    // onAuthStateChanged listener will handle showing the main app and loading orders
+                    messageBox.classList.add('hidden');
+                } catch (error) {
+                    console.error("Sign In Error:", error);
+                    displayMessage(`Sign In Failed: ${error.message}`, 'error');
+                }
+            });
+            
+            // --- Sign-up Form Submission ---
+            signUpForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                registeredUserName = document.getElementById('signup-name').value;
+                registeredUserEmail = document.getElementById('signup-email').value;
+                registeredUserPhone = ''; // Phone number removed from signup form, clear it
+                const signupPassword = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+                if (signupPassword !== confirmPassword) {
+                    displayMessage('Passwords do not match.', 'error');
+                    return;
+                }
+
+                displayMessage('Signing up...', 'info');
+
+                try {
+                    const userCredential = await auth.createUserWithEmailAndPassword(registeredUserEmail, signupPassword);
+                    await userCredential.user.updateProfile({ displayName: registeredUserName });
+                    
+                    displayMessage('Sign up successful! Please sign in using your new account.', 'success');
+                    // Switch to sign-in form after successful signup
+                    signInForm.classList.remove('hidden');
+                    signUpForm.classList.add('hidden');
+                    forgotPasswordForm.classList.add('hidden');
+                    authTitle.textContent = 'Sign In'; // Keep consistent title
+                    authSubtitle.innerHTML = 'Not a Member yet? <span class="auth-toggle-link text-blue-600 hover:text-blue-800 cursor-pointer" data-target="signup">Sign Up</span>'; // Changed text
+                } catch (error) {
+                    console.error("Sign Up Error:", error);
+                    displayMessage(`Sign Up Failed: ${error.message}`, 'error');
+                }
+            });
+
+            // --- Logout Functionality ---
+            signOutButton.addEventListener('click', async () => {
+                try {
+                    await auth.signOut();
+                    console.log('Firebase Sign Out successful.');
+                    // onAuthStateChanged listener will handle showing auth forms
+                } catch (error) {
+                    console.error('Firebase Sign Out Error:', error);
+                    displayMessage(`Sign Out Failed: ${error.message}`, 'error');
+                }
+            });
+
+            // --- Auth Toggle Functionality (Using Event Delegation) ---
+            authSection.addEventListener('click', (event) => {
+                // Check if the clicked element or its parent is an auth-toggle-link
+                const toggleLink = event.target.closest('.auth-toggle-link');
+                if (toggleLink) {
+                    const target = toggleLink.dataset.target;
+                    if (target === 'signup') {
+                        signInForm.classList.add('hidden');
+                        signUpForm.classList.remove('hidden');
+                        forgotPasswordForm.classList.add('hidden');
+                        authTitle.textContent = 'Sign Up'; // Changed to "Sign Up" for clarity
+                        authSubtitle.innerHTML = 'Already a Member? <span class="auth-toggle-link text-blue-600 hover:text-blue-800 cursor-pointer" data-target="signin">Sign In</span>'; // Changed text
+                    } else if (target === 'signin') {
+                        signInForm.classList.remove('hidden');
+                        signUpForm.classList.add('hidden');
+                        forgotPasswordForm.classList.add('hidden');
+                        authTitle.textContent = 'Sign In';
+                        authSubtitle.innerHTML = 'Not a Member yet? <span class="auth-toggle-link text-blue-600 hover:text-blue-800 cursor-pointer" data-target="signup">Sign Up</span>';
+                    }
+                    messageBox.classList.add('hidden');
+                }
+            });
+
+            // New: Forgot Password Link Click
+            forgotPasswordLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                signInForm.classList.add('hidden');
+                signUpForm.classList.add('hidden');
+                forgotPasswordForm.classList.remove('hidden');
+                authTitle.textContent = 'Reset Your Password';
+                authSubtitle.innerHTML = 'Enter your email to receive a reset link.';
+                messageBox.classList.add('hidden');
+            });
+
+            // New: Back to Sign In Link Click
+            backToSignInLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                signInForm.classList.remove('hidden');
+                signUpForm.classList.add('hidden');
+                forgotPasswordForm.classList.add('hidden');
+                authTitle.textContent = 'Sign In';
+                authSubtitle.innerHTML = 'Not a Member yet? <span class="auth-toggle-link text-blue-600 hover:text-blue-800 cursor-pointer" data-target="signup">Sign Up</span>';
+                messageBox.classList.add('hidden');
+            });
+
+            // New: Forgot Password Form Submission (Real Firebase)
+            forgotPasswordForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const resetEmail = resetEmailInput.value.trim();
+                if (resetEmail) {
+                    displayMessage('Sending reset link...', 'info');
+                    try {
+                        await auth.sendPasswordResetEmail(resetEmail);
+                        displayMessage(`If an account with ${resetEmail} exists, a password reset link has been sent. Please check your inbox.`, 'success');
+                        resetEmailInput.value = '';
+                        setTimeout(() => {
+                            signInForm.classList.remove('hidden');
+                            signUpForm.classList.add('hidden');
+                            forgotPasswordForm.classList.add('hidden');
+                            authTitle.textContent = 'Sign In';
+                            authSubtitle.innerHTML = 'Not a Member yet? <span class="auth-toggle-link text-blue-600 hover:text-blue-800 cursor-pointer" data-target="signup">Sign Up</span>';
+                            messageBox.classList.add('hidden');
+                        }, 5000); // Redirect after 5 seconds
+                    } catch (error) {
+                        console.error("Password Reset Error:", error);
+                        displayMessage(`Failed to send reset link: ${error.message}`, 'error');
+                    }
+                } else {
+                    displayMessage('Please enter your email address.', 'error');
+                }
+            });
+
+
+            function displayMessage(message, type) {
+                messageBox.textContent = message;
+                messageBox.className = `message-box ${type}`;
+                messageBox.classList.remove('hidden');
+            }
+            
+            function displayAccountMessage(message, type) {
+                accountMessageBox.textContent = message;
+                accountMessageBox.className = `message-box ${type}`;
+                accountMessageBox.classList.remove('hidden');
+            }
+
+
+            // --- Data Order Form Logic (UPDATED FOR NEW HTML) ---
+            dataSizeSelect.addEventListener('change', () => {
+                const selectedSize = dataSizeSelect.value;
+                if (selectedSize && bundlePricesLookup[selectedSize]) {
+                    amountInput.value = bundlePricesLookup[selectedSize].toFixed(2);
+                } else {
+                    amountInput.value = '';
+                }
+            });
+
+            // --- Order Form Submission (Now initiates Paystack payment) ---
+            orderForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const contactNumber = contactNumberInput.value.trim();
+                const dataSize = dataSizeSelect.value;
+                const amount = amountInput.value.trim();
+
+                if (!currentUserUid) {
+                    displayMessage('You must be signed in to place an order.', 'error');
+                    showAuthForms();
+                    return;
+                }
+
+                if (contactNumber && dataSize && amount) {
+                    // Split the registeredUserName into first and last name
+                    const nameParts = registeredUserName.split(' ');
+                    const firstName = nameParts[0] || '';
+                    const lastName = nameParts.slice(1).join(' ') || '';
+
+                    const finalOrderData = {
+                        network: 'MTN',
+                        bundleSize: dataSize,
+                        bundlePrice: parseFloat(amount),
+                        recipientPhone: contactNumber,
+                        customerDisplayName: registeredUserName || 'N/A',
+                        customerEmail: registeredUserEmail || 'guest@example.com',
+                        timestamp: new Date().toLocaleString(),
+                        userId: currentUserUid,
+                    };
+
+                    displayMessage('Preparing payment. Please wait...', 'info');
+                    console.log('Collected Order Data for Paystack:', finalOrderData);
+
+                    // --- Paystack Checkout Integration ---
+                    const handler = PaystackPop.setup({
+                        key: 'pk_live_8e753f43f8defed950965395fc04f5dc7ab1035b', // Your actual public key
+                        email: registeredUserEmail, // Pre-fill email
+                        amount: finalOrderData.bundlePrice * 100, // Amount in kobo/pesewas (multiply by 100)
+                        currency: 'GHS', // Ghana Cedis
+                        ref: 'ORD_' + Date.now(), // Unique reference for the transaction
+                        firstname: firstName, // Pre-fill first name
+                        lastname: lastName,   // Pre-fill last name
+                        metadata: {
+                            custom_fields: [
+                                {
+                                    display_name: "Bundle Size",
+                                    variable_name: "bundle_size",
+                                    value: finalOrderData.bundleSize
+                                },
+                                {
+                                    display_name: "Recipient Phone",
+                                    variable_name: "recipient_phone",
+                                    value: finalOrderData.recipientPhone
+                                },
+                                {
+                                    display_name: "Customer ID",
+                                    variable_name: "customer_id",
+                                    value: finalOrderData.userId
+                                }
+                            ]
+                        },
+                        callback: function(response){ // Payment successful callback
+                            // This function is called when the payment is successful
+                            const paymentReference = response.reference;
+                            console.log('Paystack Payment Successful! Reference:', paymentReference);
+                            displayMessage('Payment successful! Your order is being processed.', 'success');
+
+                            // Update the order status and save to local storage
+                            const newOrder = {
+                                id: 'ORD' + Date.now(), // Generate a new ID for the order
+                                network: finalOrderData.network,
+                                bundle: finalOrderData.bundleSize,
+                                price: finalOrderData.bundlePrice,
+                                phone: finalOrderData.recipientPhone,
+                                paymentReference: paymentReference, // Use the actual Paystack reference
+                                date: new Date().toLocaleString(),
+                                status: 'Submitted' // Initial status after successful payment
+                            };
+                            currentOrders.push(newOrder);
+                            localStorage.setItem(`userOrders_${currentUserUid}`, JSON.stringify(currentOrders));
+
+                            // Reset form and switch view
+                            orderForm.reset();
+                            amountInput.value = '';
+                            switchDashboardView('my-orders');
+                            updateOrderStats();
+                        },
+                        onClose: function(){ // Payment modal closed callback
+                            displayMessage('Payment process cancelled by user.', 'info');
+                        }
+                    });
+                    handler.openIframe(); // Open the Paystack payment modal
+
+                } else {
+                    displayMessage('Please fill all order details before proceeding to payment.', 'error');
+                }
+            });
+
+
+            // --- Dashboard Navigation ---
+            orderPlacementBtn.addEventListener('click', () => switchDashboardView('order-placement'));
+            myOrdersBtn.addEventListener('click', () => switchDashboardView('my-orders'));
+            accountSettingsBtn.addEventListener('click', () => switchDashboardView('account-settings'));
+
+            function switchDashboardView(view) {
+                orderPlacementSection.classList.add('hidden');
+                myOrdersSection.classList.add('hidden');
+                accountSettingsSection.classList.add('hidden');
+                accountMessageBox.classList.add('hidden');
+
+                orderPlacementBtn.classList.remove('active');
+                myOrdersBtn.classList.remove('active');
+                accountSettingsBtn.classList.remove('active');
+
+                if (view === 'order-placement') {
+                    orderPlacementSection.classList.remove('hidden');
+                    orderPlacementBtn.classList.add('active');
+                    orderForm.reset();
+                    amountInput.value = '';
+                    orderDetailsStep.classList.remove('hidden');
+                    messageBox.classList.add('hidden');
+                } else if (view === 'my-orders') {
+                    myOrdersSection.classList.remove('hidden');
+                    myOrdersBtn.classList.add('active');
+                    renderOrders();
+                    ordersList.classList.add('hidden');
+                    toggleOrdersDisplayButton.textContent = 'Show My Orders';
+                } else if (view === 'account-settings') {
+                    accountSettingsSection.classList.remove('hidden');
+                    accountSettingsBtn.classList.add('active');
+                    populateAccountSettings();
+                }
+                currentView = view;
+            }
+
+            // --- My Orders Section Logic ---
+            function updateOrderStats() {
+                totalOrdersSpan.textContent = currentOrders.filter(order => order.status !== 'Delivered').length;
+                submittedOrdersSpan.textContent = currentOrders.filter(order => order.status === 'Submitted' || order.status === 'Processing').length;
+            }
+
+            function renderOrders() {
+                ordersList.innerHTML = '';
+                const ordersToDisplay = currentOrders.filter(order => order.status !== 'Delivered');
+
+                if (ordersToDisplay.length === 0) {
+                    noOrdersMessage.classList.remove('hidden');
+                    toggleOrdersDisplayButton.classList.add('hidden');
+                } else {
+                    noOrdersMessage.classList.add('hidden');
+                    toggleOrdersDisplayButton.classList.remove('hidden');
+                    ordersToDisplay.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    ordersToDisplay.forEach(order => {
+                        const orderItem = document.createElement('div');
+                        orderItem.classList.add('shadow-sm', 'border-gray-200');
+                        let statusClass = '';
+                        let displayStatus = order.status;
+
+                        if (order.status === 'Submitted') {
+                            statusClass = 'status-submitted';
+                            displayStatus = 'Submitted';
+                        } else if (order.status === 'Processing') {
+                            statusClass = 'status-processing';
+                        } else if (order.status === 'Cancelled') {
+                            statusClass = 'status-cancelled';
+                        } else {
+                            statusClass = 'status-unknown';
+                        }
+
+                        orderItem.innerHTML = `
+                            <p><strong>Order ID:</strong> ${order.id}</p>
+                            <p><strong>Network:</strong> ${order.network}</p>
+                            <p><strong>Bundle:</strong> ${order.bundle}</p>
+                            <p><strong>Price:</strong> GHS ${order.price.toFixed(2)}</p>
+                            <p><strong>Phone:</strong> ${order.phone}</p>
+                            <p><strong>Reference:</strong> ${order.paymentReference || 'N/A'}</p>
+                            <p><strong>Date:</strong> ${order.date}</p>
+                            <p><strong>Status:</strong> <span class="${statusClass}">${displayStatus}</span></p>
+                            `;
+                        ordersList.appendChild(orderItem);
+                    });
+                }
+            }
+
+            toggleOrdersDisplayButton.addEventListener('click', () => {
+                ordersList.classList.toggle('hidden');
+                if (ordersList.classList.contains('hidden')) {
+                    toggleOrdersDisplayButton.textContent = 'Show My Orders';
+                } else {
+                    toggleOrdersDisplayButton.textContent = 'Hide My Orders';
+                }
+            });
+
+
+            // --- Simulated Admin Action: Mark Order as Delivered ---
+            function markOrderAsDelivered(orderId) {
+                const orderIndex = currentOrders.findIndex(order => order.id === orderId);
+                if (orderIndex !== -1) {
+                    currentOrders[orderIndex].status = 'Delivered';
+                    displayMessage(`Order ${orderId} has been marked as Delivered!`, 'success');
+                    updateOrderStats();
+                    renderOrders();
+                    localStorage.setItem(`userOrders_${currentUserUid}`, JSON.stringify(currentOrders));
+                } else {
+                    displayMessage(`Order ${orderId} not found.`, 'error');
+                }
+            }
+
+
+            // --- Account Settings Logic ---
+            function populateAccountSettings() {
+                if (currentUserUid) {
+                    profileNameInput.value = registeredUserName;
+                    profileEmailInput.value = registeredUserEmail;
+                    // In a real Firebase app, you'd fetch phone number from Firestore/Realtime DB if stored
+                    profilePhoneInput.value = registeredUserPhone;
+                } else {
+                    profileNameInput.value = '';
+                    profileEmailInput.value = '';
+                    profilePhoneInput.value = '';
+                }
+                currentPasswordInput.value = '';
+                newPasswordInput.value = '';
+                confirmNewPasswordInput.value = '';
+                accountMessageBox.classList.add('hidden');
+            }
+
+            profileEditForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                displayAccountMessage('Updating profile...', 'info');
+
+                const newName = profileNameInput.value.trim();
+                const newEmail = profileEmailInput.value.trim();
+                const newPhone = profilePhoneInput.value.trim();
+
+                if (!newName || !newEmail || !newPhone) {
+                    displayAccountMessage('All profile fields are required.', 'error');
+                    return;
+                }
+                
+                try {
+                    const user = auth.currentUser;
+                    if (user) {
+                        // Update display name and email in Firebase Auth
+                        await user.updateProfile({ displayName: newName });
+                        if (user.email !== newEmail) {
+                            await user.updateEmail(newEmail);
+                        }
+                        // For phone number, you would typically update a Firestore/Realtime Database document
+                        registeredUserName = newName;
+                        registeredUserEmail = newEmail;
+                        registeredUserPhone = newPhone; // Assuming this is just local state for now
+                        userDisplay.textContent = `Welcome, ${registeredUserName}!`;
+                        displayAccountMessage('Profile updated successfully!', 'success');
+                    } else {
+                        displayAccountMessage('No user is signed in to update profile.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Profile update error:', error);
+                    displayAccountMessage(`Failed to update profile: ${error.message}`, 'error');
+                }
+            });
+
+            passwordChangeForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                displayAccountMessage('Changing password...', 'info');
+
+                const currentPassword = currentPasswordInput.value;
+                const newPassword = newPasswordInput.value;
+                const confirmNewPassword = confirmNewPasswordInput.value;
+
+                if (!currentPassword || !newPassword || !confirmNewPassword) {
+                    displayAccountMessage('All password fields are required.', 'error');
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    displayAccountMessage('New password must be at least 6 characters long.', 'error');
+                    return;
+                }
+
+                if (newPassword !== confirmNewPassword) {
+                    displayAccountMessage('New password and confirm password do not match.', 'error');
+                    return;
+                }
+                
+                try {
+                    const user = auth.currentUser;
+                    if (user) {
+                        // Re-authenticate user before changing password
+                        const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+                        await user.reauthenticateWithCredential(credential);
+                        await user.updatePassword(newPassword);
+                        displayAccountMessage('Password changed successfully!', 'success');
+                        currentPasswordInput.value = '';
+                        newPasswordInput.value = '';
+                        confirmNewPasswordInput.value = '';
+                    } else {
+                        displayAccountMessage('No user is signed in.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Password change error:', error);
+                    displayAccountMessage(`Failed to change password: ${error.message}`, 'error');
+                }
+            });
+
+
+            // --- Mobile Menu Toggle ---
+            mobileMenuButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                mobileMenu.classList.toggle('open');
+                // Hide contact/agent info if menu opens
+                contactNameContainer.classList.remove('show');
+                agentMessageContainer.classList.remove('show');
+            });
+
+            // --- Mobile Menu Links Functionality ---
+            mobileContactLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                contactNameContainer.classList.toggle('show');
+                agentMessageContainer.classList.remove('show');
+                mobileMenu.classList.remove('open'); // Close menu after clicking link
+            });
+
+            mobileAgentLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                agentMessageContainer.classList.toggle('show');
+                contactNameContainer.classList.remove('show');
+                mobileMenu.classList.remove('open'); // Close menu after clicking link
+            });
+
+
+            // Global click handler to close menus/info boxes
+            document.addEventListener('click', (event) => {
+                const isClickInsideContact = contactNameContainer.contains(event.target) || mobileContactLink.contains(event.target);
+                const isClickInsideAgent = agentMessageContainer.contains(event.target) || mobileAgentLink.contains(event.target);
+                const isClickInsideMobileMenuButton = mobileMenuButton.contains(event.target);
+                const isClickInsideMobileMenu = mobileMenu.contains(event.target);
+
+
+                if (!isClickInsideContact && contactNameContainer.classList.contains('show')) {
+                    contactNameContainer.classList.remove('show');
+                }
+                if (!isClickInsideAgent && agentMessageContainer.classList.contains('show')) {
+                    agentMessageContainer.classList.remove('show');
+                }
+                if (!isClickInsideMobileMenuButton && !isClickInsideMobileMenu && mobileMenu.classList.contains('open')) {
+                    mobileMenu.classList.remove('open');
+                }
+            });
+
+            // Adjust mobile menu display on window resize
+            window.addEventListener('resize', () => {
+                if (mobileMenu.classList.contains('open') && window.innerWidth >= 768) {
+                    mobileMenu.classList.remove('open');
+                }
+                contactNameContainer.classList.remove('show');
+                agentMessageContainer.classList.remove('show');
+            });
+            
+            // --- Google Sign-in ---
+            googleSignInButton.addEventListener('click', async () => {
+                displayMessage('Signing in with Google...', 'info');
+                const provider = new firebase.auth.GoogleAuthProvider();
+                try {
+                    await auth.signInWithPopup(provider);
+                    // onAuthStateChanged listener will handle showing the main app
+                    messageBox.classList.add('hidden');
+                } catch (error) {
+                    console.error("Google Sign In Error:", error);
+                    displayMessage(`Google Sign In Failed: ${error.message}`, 'error');
+                }
+            });
+
+            // --- Apple Sign-in ---
+            appleSignInButton.addEventListener('click', async () => {
+                displayMessage('Signing in with Apple...', 'info');
+                const provider = new firebase.auth.OAuthProvider('apple.com');
+                // Request email and name scopes
+                provider.addScope('email');
+                provider.addScope('name');
+                try {
+                    await auth.signInWithPopup(provider);
+                    // onAuthStateChanged listener will handle showing the main app
+                    messageBox.classList.add('hidden');
+                } catch (error) {
+                    console.error("Apple Sign In Error:", error);
+                    displayMessage(`Apple Sign In Failed: ${error.message}`, 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
